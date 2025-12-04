@@ -28,7 +28,7 @@ export class AuthService {
                 return userAccount;
             }
         } catch (error) {
-            throw error
+            throw new Error(error)
         }
     }
 
@@ -36,7 +36,7 @@ export class AuthService {
         try {
             return await this.account.createEmailPasswordSession({email, password})
         } catch (error) {
-            throw error;
+            throw new Error(error);
         }
     }
 
@@ -44,7 +44,7 @@ export class AuthService {
         try {
             return await this.account.get()
         } catch (error) {
-            throw error
+            throw new Error(error)
         }
 
         return null;
@@ -54,7 +54,7 @@ export class AuthService {
         try {
             await this.account.deleteSessions();
         } catch (error) {
-            throw error
+            throw new Error(error)
         }
     }
 
