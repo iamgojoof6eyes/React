@@ -6,4 +6,6 @@
 
 ## To improve
 
-- Add loading screen in [App.jsx](./src/App.jsx) for better experince.
+- Add loading screen in [App.jsx](./src/App.jsx) (and at few more place) for better experince.
+- Add theme swticher in the project
+- Add show and hide password option
