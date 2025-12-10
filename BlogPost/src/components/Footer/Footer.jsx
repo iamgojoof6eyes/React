@@ -3,7 +3,7 @@ import { Logo } from '../index'
 
 function Footer() {
     return (
-        <section className="relative overflow-hidden py-10 bg-gray-400 border border-t-2 border-t-black">
+        <section className="relative overflow-hidden py-10 bg-gray-700 border border-t-2 border-t-black">
             <div className="relative z-10 mx-auto max-w-7xl px-4">
                 <div className="-m-6 flex flex-wrap">
                     <div className="w-full p-6 md:w-1/2 lg:w-5/12">
@@ -12,21 +12,21 @@ function Footer() {
                                 <Logo width="100px" />
                             </div>
                             <div>
-                                <p className="text-sm text-gray-600">
-                                    &copy; Copyright 2025. All right reserved by <Link to="https://github.com/iamgojoof6eyes" target='_blank' className='underline'>Captain D. Ezio</Link>
+                                <p className="text-sm text-white">
+                                    &copy; Copyright 2025. All right reserved by <Link to="https://github.com/iamgojoof6eyes" target='_blank' className='underline hover:text-gray-400'>Captain D. Ezio</Link>
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div className="w-full p-6 md:w-1/2 lg:w-2/12">
                         <div className="h-full">
-                            <h3 className="tracking-px mb-9  text-xs font-semibold uppercase text-gray-900">
+                            <h3 className="tracking-px mb-9 text-xs font-bold uppercase text-black">
                                 Company
                             </h3>
                             <ul>
                                 <li className="mb-4">
                                     <Link
-                                        className=" text-base font-medium text-gray-600 hover:text-gray-700"
+                                        className=" text-base font-medium text-white hover:text-gray-400"
                                         to="/"
                                     >
                                         Features
@@ -34,7 +34,7 @@ function Footer() {
                                 </li>
                                 <li className="mb-4">
                                     <Link
-                                        className=" text-base font-medium text-gray-600 hover:text-gray-700"
+                                        className=" text-base font-medium text-white hover:text-gray-400"
                                         to="/"
                                     >
                                         Pricing
@@ -42,7 +42,7 @@ function Footer() {
                                 </li>
                                 <li className="mb-4">
                                     <Link
-                                        className=" text-base font-medium text-gray-600 hover:text-gray-700"
+                                        className=" text-base font-medium text-white hover:text-gray-400"
                                         to="/"
                                     >
                                         Affiliate Program
@@ -50,7 +50,7 @@ function Footer() {
                                 </li>
                                 <li>
                                     <Link
-                                        className=" text-base font-medium text-gray-600 hover:text-gray-700"
+                                        className=" text-base font-medium text-white hover:text-gray-400"
                                         to="/"
                                     >
                                         Press Kit
@@ -61,13 +61,13 @@ function Footer() {
                     </div>
                     <div className="w-full p-6 md:w-1/2 lg:w-2/12">
                         <div className="h-full">
-                            <h3 className="tracking-px mb-9  text-xs font-semibold uppercase text-gray-900">
+                            <h3 className="tracking-px mb-9  text-xs font-bold uppercase text-black">
                                 Support
                             </h3>
                             <ul>
                                 <li className="mb-4">
                                     <Link
-                                        className=" text-base font-medium text-gray-600 hover:text-gray-700"
+                                        className=" text-base font-medium text-white hover:text-gray-400"
                                         to="/"
                                     >
                                         Account
@@ -75,7 +75,7 @@ function Footer() {
                                 </li>
                                 <li className="mb-4">
                                     <Link
-                                        className=" text-base font-medium text-gray-600 hover:text-gray-700"
+                                        className=" text-base font-medium text-white hover:text-gray-400"
                                         to="/"
                                     >
                                         Help
@@ -83,7 +83,7 @@ function Footer() {
                                 </li>
                                 <li className="mb-4">
                                     <Link
-                                        className=" text-base font-medium text-gray-600 hover:text-gray-700"
+                                        className=" text-base font-medium text-white hover:text-gray-400"
                                         to="/"
                                     >
                                         Contact Us
@@ -91,7 +91,7 @@ function Footer() {
                                 </li>
                                 <li>
                                     <Link
-                                        className=" text-base font-medium text-gray-600 hover:text-gray-700"
+                                        className=" text-base font-medium text-white hover:text-gray-400"
                                         to="/"
                                     >
                                         Customer Support
@@ -102,13 +102,13 @@ function Footer() {
                     </div>
                     <div className="w-full p-6 md:w-1/2 lg:w-3/12">
                         <div className="h-full">
-                            <h3 className="tracking-px mb-9  text-xs font-semibold uppercase text-gray-900">
+                            <h3 className="tracking-px mb-9  text-xs font-bold uppercase text-black">
                                 Legals
                             </h3>
                             <ul>
                                 <li className="mb-4">
                                     <Link
-                                        className=" text-base font-medium text-gray-600 hover:text-gray-700"
+                                        className=" text-base font-medium text-white hover:text-gray-400"
                                         to="/"
                                     >
                                         Terms &amp; Conditions
@@ -116,7 +116,7 @@ function Footer() {
                                 </li>
                                 <li className="mb-4">
                                     <Link
-                                        className=" text-base font-medium text-gray-600 hover:text-gray-700"
+                                        className=" text-base font-medium text-white hover:text-gray-400"
                                         to="/"
                                     >
                                         Privacy Policy
@@ -124,7 +124,7 @@ function Footer() {
                                 </li>
                                 <li>
                                     <Link
-                                        className=" text-base font-medium text-gray-600 hover:text-gray-700"
+                                        className=" text-base font-medium text-white hover:text-gray-400"
                                         to="/"
                                     >
                                         Licensing

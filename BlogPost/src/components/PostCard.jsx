@@ -11,10 +11,10 @@ function PostCard(
     return (
         <Link to={`/post/${$id}`}>
             <div className="w-full bg-gray-400 rounded-xl p-4">
-                <div className="mb-4 justify-center w-full">
+                {featuredImage && <div className="mb-4 justify-center w-full">
                     <img src={appwriteService.getFilePreview(featuredImage)} alt={title} className="rounded-xl"/>
-                </div>
-                <h2 className="text-xl font-bold">{title}</h2>
+                </div>}
+                <h2 className={`text-xl text-center font-bold`}>{title}</h2>
             </div>
         </Link>
     )
