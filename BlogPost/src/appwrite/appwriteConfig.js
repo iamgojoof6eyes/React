@@ -33,7 +33,7 @@ export class Service {
                 }
             )
         } catch (error) {
-            throw new Error(error)
+            throw new Error(error.message)
         }
     }
 
@@ -53,7 +53,7 @@ export class Service {
                 }
             )
         } catch (error) {
-            throw new Error(error)
+            throw new Error(error.message)
         }
     }
 
@@ -68,7 +68,7 @@ export class Service {
             )
             return true
         } catch (error) {
-            throw new Error(error)
+            throw new Error(error.message)
         }
     }
 
@@ -82,7 +82,7 @@ export class Service {
                 }
             )
         } catch (error) {
-            throw new Error(error)
+            throw new Error(error.message)
         }
     }
 
@@ -96,7 +96,7 @@ export class Service {
                 }
             )
         } catch (error) {
-            throw new Error(error)
+            throw new Error(error.message)
         }
     }
 
@@ -126,21 +126,21 @@ export class Service {
             )
             return true;
         } catch (error) {
-            throw new Error(error);
+            throw new Error(error.message);
             
         }
     }
 
     getFilePreview(fileId) {
         try {
-            return this.bucket.getFilePreview(
+            return this.bucket.getFileView(
                 {
                     bucketId: config.appwriteBucketId,
                     fileId
                 }
             )
         } catch (error) {
-            throw new Error(error);
+            throw new Error(error.message);
             
         }
     }

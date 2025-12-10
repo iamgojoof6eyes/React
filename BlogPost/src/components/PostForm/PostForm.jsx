@@ -1,9 +1,9 @@
 import { useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { Button, Input, Select, RTE } from "../index"
-import appwriteService from '../../appwrite/appwriteConfig'
-import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import appwriteService from '../../appwrite/appwriteConfig'
+import { Button, Input, RTE, Select } from "../index"
 
 function PostForm({ post }) {
     const {register, handleSubmit, watch, setValue, control, getValues} = useForm(
@@ -35,7 +35,8 @@ function PostForm({ post }) {
                 post.$id,
                 {
                     ...data,
-                    featuredImage: file ? file.$id : null
+                    featuredImage: file ? file.$id : null,
+                    status: data.status === "active" ? true : false
                 }
             )
 
@@ -49,11 +50,12 @@ function PostForm({ post }) {
                 const fileId = file.$id
                 data.featuredImage = fileId
             }
-
+            
             const dbPost = await appwriteService.createPost(
                 {
                     ...data,
-                    userId: userData.$id
+                    userId: userData.$id,
+                    status: data.status === "active" ? true : false
                 }
             )
             if (dbPost) {
@@ -64,7 +66,7 @@ function PostForm({ post }) {
 
     //slugTransfrom (can be anything we are saying slugTransform here) is used to change particular output in this case it will replace the space in title with - and create a slug
     const slugTransform = useCallback(
-        () => {
+        (value) => {
             if (value && typeof value === "string") {
                 return value
                 .trim()
@@ -124,7 +126,7 @@ function PostForm({ post }) {
                 <Input
                     label="Featured Image :"
                     type="file"
-                    className="mb-4"
+                    className="mb-4 cursor-pointer bg-black"
                     accept="image/png, image/jpg, image/jpeg, image/gif"
                     {...register("image", { required: false })}
                 />
@@ -143,7 +145,7 @@ function PostForm({ post }) {
                     className="mb-4"
                     {...register("status", { required: true })}
                 />
-                <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
+                <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full duration-300 hover:shadow-lg hover:shadow-black/50 mt-5">
                     {post ? "Update" : "Submit"}
                 </Button>
             </div>
