@@ -1,14 +1,16 @@
+import parse from "html-react-parser";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import appwriteService from "../appwrite/appwriteConfig";
-import { Button, Container } from "../components";
-import parse from "html-react-parser";
-import { useSelector } from "react-redux";
+import { Button, Container, Loader } from "../components";
 
 export default function Post() {
     const [post, setPost] = useState(null);
     const { slug } = useParams();
     const navigate = useNavigate();
+
+    const [isClicked, setIsClicked] = useState(false);
 
     const userData = useSelector((state) => state.auth.userData);
 
@@ -24,11 +26,14 @@ export default function Post() {
     }, [slug, navigate]);
 
     const deletePost = () => {
+        setIsClicked(true)
+        
         appwriteService.deletePost(post.$id).then((status) => {
             if (status) {
                 appwriteService.removeFile(post.featuredImage);
                 navigate("/");
             }
+            setIsClicked(false);
         });
     };
 
@@ -45,12 +50,12 @@ export default function Post() {
                     {isAuthor && (
                         <div className="absolute right-6 top-6">
                             <Link to={`/edit-post/${post.$id}`}>
-                                <Button bgColor="bg-green-500" className="mr-3">
+                                <Button bgColor="bg-green-500" className="mr-3" disabled={isClicked}>
                                     Edit
                                 </Button>
                             </Link>
-                            <Button bgColor="bg-red-500" onClick={deletePost}>
-                                Delete
+                            <Button bgColor="enabled:bg-red-500" className="disabled:bg-gray-300" onClick={deletePost} disabled={isClicked}>
+                                {isClicked ? <Loader color="text-red-500" label=""/> : "Delete"}
                             </Button>
                         </div>
                     )}

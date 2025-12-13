@@ -1,18 +1,21 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import appwriteService from '../../appwrite/appwriteConfig'
-import { Button, Input, RTE, Select } from "../index"
+import { Button, Input, Loader, RTE, Select } from "../index"
 
 function PostForm({ post }) {
+    const [error, setError] = useState(null)
+    const [isSubmit, setIsSubmit] = useState(false)
+
     const {register, handleSubmit, watch, setValue, control, getValues} = useForm(
         {
             defaultValues: {
                 title: post?.title || "",
                 slug: post?.$id || "",
                 content: post?.content || "",
-                status: post?.status || true,
+                status: post ? (post.status ? "active" : "inactive") : "active",
             }
         }
     )
@@ -22,45 +25,55 @@ function PostForm({ post }) {
     const userData = useSelector(state => state.auth.userData)
     
     const submit = async (data) => {
-        if (post) {
-            // data.image?.[0] if data.image is not null or undefined then it will slice it if u forgot how it works just read about it on mdn the topic is optional chaining
-            // Just tested what happens to this statement if the data.image is an empty array it will still work as in js if we slice a non existing value from array it give undefined and null and undefined conditions are treated as false but I have written it in case data.image is null or undefined already
-            const file = data?.image?.[0] ? await appwriteService.uploadFile(data.image[0]) : null;
-            
-            if (file) {
-                await appwriteService.removeFile(post.featuredImage)
-            }
-
-            const dbPost = await appwriteService.updatePost(
-                post.$id,
-                {
-                    ...data,
-                    featuredImage: file ? file.$id : null,
-                    status: data.status === "active" ? true : false
+        setIsSubmit(true)
+        try {
+            if (post) {
+                // data.image?.[0] if data.image is not null or undefined then it will slice it if u forgot how it works just read about it on mdn the topic is optional chaining
+                // Just tested what happens to this statement if the data.image is an empty array it will still work as in js if we slice a non existing value from array it give undefined and null and undefined conditions are treated as false but I have written it in case data.image is null or undefined already
+                const file = data.image?.[0] ? await appwriteService.uploadFile(data.image[0]) : data.featuredImage;
+                
+                if (file && post.featuredImage) {
+                    await appwriteService.removeFile(post.featuredImage)
                 }
-            )
 
-            if (dbPost) {
-                nvaigate(`/post/${dbPost.$id}`)
-            }
-        } else {
-            const file = data?.image?.[0] ? await appwriteService.uploadFile(data.image[0]) : null;
-            
-            if (file) {
-                const fileId = file.$id
-                data.featuredImage = fileId
-            }
-            
-            const dbPost = await appwriteService.createPost(
-                {
-                    ...data,
-                    userId: userData.$id,
-                    status: data.status === "active" ? true : false
+                const dbPost = await appwriteService.updatePost(
+                    post.$id,
+                    {
+                        ...data,
+                        featuredImage: file ? file.$id : null,
+                        status: data.status === "active" ? true : false
+                    }
+                )
+                setIsSubmit(false)
+
+                if (dbPost) {
+                    nvaigate(`/post/${dbPost.$id}`)
                 }
-            )
-            if (dbPost) {
-                nvaigate(`/post/${dbPost.$id}`)
+                console.log(data.status);
+                
+            } else {
+                const file = data?.image?.[0] ? await appwriteService.uploadFile(data.image[0]) : null;
+                
+                if (file) {
+                    const fileId = file.$id
+                    data.featuredImage = fileId
+                }
+                
+                const dbPost = await appwriteService.createPost(
+                    {
+                        ...data,
+                        userId: userData.$id,
+                        status: data.status === "active" ? true : false
+                    }
+                )
+                setIsSubmit(false)
+                if (dbPost) {
+                    nvaigate(`/post/${dbPost.$id}`)
+                }
             }
+        } catch (err) {
+            setError(err.message)
+            setIsSubmit(false)
         }
     }
 
@@ -110,6 +123,7 @@ function PostForm({ post }) {
                     placeholder="Title"
                     className="mb-4"
                     {...register("title", { required: true })}
+                    readOnly={isSubmit}
                 />
                 <Input
                     label="Slug :"
@@ -119,6 +133,7 @@ function PostForm({ post }) {
                     onInput={(e) => {
                         setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
                     }}
+                    readOnly={isSubmit}
                 />
                 <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
             </div>
@@ -129,8 +144,10 @@ function PostForm({ post }) {
                     className="mb-4 cursor-pointer bg-black"
                     accept="image/png, image/jpg, image/jpeg, image/gif"
                     {...register("image", { required: false })}
+                    readOnly={isSubmit}
+                    
                 />
-                {post && (
+                {post?.featuredImage && (
                     <div className="w-full mb-4">
                         <img
                             src={appwriteService.getFilePreview(post.featuredImage)}
@@ -144,9 +161,12 @@ function PostForm({ post }) {
                     label="Status"
                     className="mb-4"
                     {...register("status", { required: true })}
+                    disabled={isSubmit}
                 />
-                <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full duration-300 hover:shadow-lg hover:shadow-black/50 mt-5">
-                    {post ? "Update" : "Submit"}
+                <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full duration-300 enabled:hover:shadow-lg enabled:hover:shadow-black/50 disabled:bg-gray-300 mt-5" disabled={isSubmit}>
+                    {isSubmit ? (
+                        <Loader label={(post ? "Updating" : "Submitting")}/>
+                    ) : (post ? "Update" : "Submit")}
                 </Button>
             </div>
         </form>

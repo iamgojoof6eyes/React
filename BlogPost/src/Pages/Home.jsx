@@ -21,7 +21,8 @@ function Home() {
         },
         []
     )
-
+    console.log(posts);
+    
     if (!status) {
         return (
         <div className="w-full py-8 mt-4 text-center">

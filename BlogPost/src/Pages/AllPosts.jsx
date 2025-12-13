@@ -38,7 +38,13 @@ function AllPosts() {
                                     <PostCard {...post} />
                                 </div>
                             ) 
-                        ) : <div className='p-2 w-1/4'>Start creating posts to see them here</div>
+                        ) : (
+                        <div className="p-2 w-full text-center">
+                            <h1 className="text-2xl">
+                                Don't have anything to show
+                            </h1>
+                        </div>
+                        )
                     }
                 </div>
             </Container>

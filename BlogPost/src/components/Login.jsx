@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from "react-router-dom"
 import authService from '../appwrite/auth'
 import { login as authLogin } from "../store/authSlice"
-import { Button, Input, Logo } from "./index"
+import { Button, Input, Loader, Logo } from "./index"
 
 function Login() {
     const navigate = useNavigate()
@@ -12,8 +12,10 @@ function Login() {
 
     const {register, handleSubmit} = useForm()
     const [error, setError] = useState(null)
+    const [isSubmit, setIsSubmit] = useState(false)
 
     const login = async (data) => {
+        setIsSubmit(true)
         setError(null)
         try {
             const session = await authService.login(data)
@@ -24,6 +26,9 @@ function Login() {
             }
         } catch (error) {
             setError(error.message)
+        }
+        finally {
+            setIsSubmit(false)
         }
     }
 
@@ -40,7 +45,7 @@ function Login() {
                     Don&apos;t have any account?&nbsp;
                     <Link
                     to="/signup"
-                    className="font-medium text-primary transition-all duration-200 hover:underline text-blue-500"
+                    className="font-medium transition-all duration-200 hover:underline text-blue-500"
                     >
                         Sign Up
                     </Link>
@@ -51,6 +56,7 @@ function Login() {
                         <Input 
                         label="Email: "
                         placeholder="Enter your email"
+                        readOnly={isSubmit}
                         type="email"
                         {...register(
                             "email",
@@ -81,13 +87,17 @@ function Login() {
                                 }
                             )
                         }
+                        readOnly={isSubmit}
                         />
                         <Button
                         type="submit"
-                        className="w-full mt-5 duration-300 hover:shadow-lg hover:shadow-black/50"
+                        className="w-full mt-5 duration-300 enabled:hover:shadow-lg enabled:hover:shadow-black/50 disabled:bg-gray-300" disabled={isSubmit}
                         >
-                            Sign in
+                            {
+                                isSubmit ? (<Loader label='Singing in'/>) : "Sign in"
+                            }
                         </Button>
+                        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
                     </div>
                 </form>
             </div>

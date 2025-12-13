@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, NavLink, useNavigate } from "react-router-dom"
 import { Container, Logo, LogoutBtn } from "../index"
 
 function Header() {
@@ -55,7 +55,9 @@ function Header() {
                                         onClick={() => navigate(item.redirect)}
                                         className='inline-bock px-6 py-2 duration-500 hover:bg-blue-500 hover:shadow-2xl/40 hover:shadow-blue-400 rounded-full'
                                         >
-                                            {item.name}
+                                            <NavLink to={item.redirect} className={({isActive}) => isActive ? 'underline' : ('')}>
+                                                {item.name}
+                                            </NavLink>
                                         </button>
                                     </li>
                                 ) : null

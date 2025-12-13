@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from "react-router-dom"
 import authService from '../appwrite/auth'
 import { login as authLogin } from "../store/authSlice"
-import { Button, Input, Logo } from "./index"
+import { Button, Input, Loader, Logo } from "./index"
 
 function Logout() {
     const navigate = useNavigate()
@@ -14,7 +14,10 @@ function Logout() {
 
     const { register, handleSubmit } = useForm()
 
+    const [isSubmit, setIsSubmit] = useState(false)
+
     const signup = async (data) => {
+        setIsSubmit(true)
         setError(null)
         try {
             const session = await authService.createAccount(data)
@@ -25,6 +28,9 @@ function Logout() {
             }
         } catch (error) {
             setError(error.message)
+        }
+        finally {
+            setIsSubmit(false)
         }
     }
 
@@ -41,7 +47,7 @@ function Logout() {
                     Already have an account?&nbsp;
                     <Link
                         to="/login"
-                        className="font-medium text-primary transition-all duration-200 hover:underline text-blue-500"
+                        className="font-medium text-primary transition-all duration-200 hover:underline"
                     >
                         Sign In
                     </Link>
@@ -61,6 +67,7 @@ function Logout() {
                                 }
                             )
                         }
+                        readOnly={isSubmit}
                         />
                         <Input 
                         label="Email: "
@@ -77,6 +84,7 @@ function Logout() {
                             }
                         )
                         }
+                        readOnly={isSubmit}
                         />
                         <Input 
                         label="Password: "
@@ -90,12 +98,16 @@ function Logout() {
                                 }
                             )
                         }
+                        readOnly={isSubmit}
                         />
                         <Button
                         type="submit"
-                        className="w-full mt-5 duration-300 hover:shadow-lg hover:shadow-black/50"
+                        className="w-full mt-5 duration-300 enabled:hover:shadow-lg enabled:hover:shadow-black/50 disabled:bg-gray-300"
+                        disabled={isSubmit}
                         >
-                            Create Account
+                            {
+                                isSubmit ? (<Loader label='Creating account'/>) : 'Create Account'
+                            }
                         </Button>
                     </div>
                 </form>
