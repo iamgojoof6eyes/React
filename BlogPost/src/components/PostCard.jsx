@@ -14,7 +14,7 @@ function PostCard(
                 {featuredImage && <div className="mb-4 justify-center w-full">
                     <img src={appwriteService.getFilePreview(featuredImage)} alt={title} className="rounded-xl"/>
                 </div>}
-                <h2 className={`text-xl text-center font-bold`}>{title}</h2>
+                <h2 className={`text-xl text-center font-bold text-wrap`}>{title}</h2>
             </div>
         </Link>
     )

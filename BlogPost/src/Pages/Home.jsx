@@ -1,27 +1,40 @@
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import appwriteService from "../appwrite/appwriteConfig"
 import { Container, PostCard } from "../components"
+import { updatePost } from "../store/postSlice"
 
 function Home() {
     const [error, setError] = useState(null)
     const [posts, setPost] = useState([])
 
     const status = useSelector(state => state.auth.status)
+    const storedPosts = useSelector(state => state.posts.posts)
+    
+    const dispatch = useDispatch()
+
 
     useEffect(
         () => {
-            appwriteService.getPosts()
-            .then((posts) => setPost(posts.documents))
-            .catch((err) => {
-                setError(err.message)
-                console.error(`Pages :: Home.jsx :: Got error while fetching the posts ${err.message}`)
+            if (storedPosts && Object.keys(storedPosts).length > 0) {
+                setPost(Object.values(storedPosts))
+            } else {
+                appwriteService.getPosts()
+                .then((posts) => {
+                    setPost(posts.documents)
+                    posts.documents.map(
+                        (post) => dispatch(updatePost({slug: post.$id, post: post}))
+                    )
+                })
+                .catch((err) => {
+                    setError(err.message)
+                    console.error(`Pages :: Home.jsx :: Got error while fetching the posts ${err.message}`)
+                }
+                )
             }
-            )
         },
         []
     )
-    console.log(posts);
     
     if (!status) {
         return (

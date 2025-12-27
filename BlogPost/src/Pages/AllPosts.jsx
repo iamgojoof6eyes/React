@@ -1,27 +1,40 @@
 import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import appwriteService from "../appwrite/appwriteConfig"
 import { Container, PostCard } from "../components"
+import { updatePost } from "../store/postSlice"
 
 function AllPosts() {
     const [posts, setPost] = useState(null)
     const [error, setError] = useState(null)
+    
+    const storedPosts = useSelector(state => state.posts.posts)
+    const dispatch = useDispatch()
+
     useEffect(
         () => {
-            appwriteService.getPosts([])
-            .then(
-                (posts) => {
-                    setError(null)
-                    if (posts) {
-                        setPost(posts.documents)
+            if (storedPosts && Object.keys(storedPosts).length > 0) {
+                setPost(Object.values(storedPosts))
+            } else {
+                appwriteService.getPosts([])
+                .then(
+                    (posts) => {
+                        setError(null)
+                        if (posts) {
+                            setPost(posts.documents)
+                            posts.documents.map(
+                                (post) => dispatch(updatePost({slug: post.$id, post: post}))
+                            )
+                        }
                     }
-                }
-            )
-            .catch(
-                (err) => {
-                    setError(err.message)
-                    console.error(`Got error in AllPosts.jsx in Pages ${err.message}`)
-                }
-            );
+                )
+                .catch(
+                    (err) => {
+                        setError(err.message)
+                        console.error(`Got error in AllPosts.jsx in Pages ${err.message}`)
+                    }
+                );
+            }
         },
         []
     )

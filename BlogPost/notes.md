@@ -6,10 +6,11 @@
 - [RTE.jsx](./src//components/RTE.jsx) in this file we have created the text editor which was required (also called Riched text editor) more information is included in file in comment tags
 - Somethings about [optional chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) and comman js behaviour is written inside [PostForm.jsx](./src/components//PostForm/PostForm.jsx)
 - `forwardRef` is deprecated from version of react 19, sir have used it because it wasn't back then, now we use `useRef` hook and pass it as a prop instead of using `forwardRef` I have still used it in the project because it will not harm us to learn few additional things
+- Can't store media (or non serializable items) in redux store [read here](https://redux.js.org/faq/organizing-state#can-i-put-functions-promises-or-other-non-serializable-items-in-my-store-state)
 
 ## To improve
 
-- Add `post slice` in store of redux
+- ~~Add `post slice` in store of redux~~
 - Add loading screen in [App.jsx](./src/App.jsx) (and at few more place) for better experince.
 - Add theme swticher in the project
 - Add show and hide password option

@@ -1,9 +1,10 @@
 import parse from "html-react-parser";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import appwriteService from "../appwrite/appwriteConfig";
 import { Button, Container, Loader } from "../components";
+import { removePost } from "../store/postSlice";
 
 export default function Post() {
     const [post, setPost] = useState(null);
@@ -13,6 +14,8 @@ export default function Post() {
     const [isClicked, setIsClicked] = useState(false);
 
     const userData = useSelector((state) => state.auth.userData);
+
+    const dispatch = useDispatch()
 
     const isAuthor = post && userData ? post.userId === userData.$id : false;
 
@@ -31,6 +34,7 @@ export default function Post() {
         appwriteService.deletePost(post.$id).then((status) => {
             if (status) {
                 appwriteService.removeFile(post.featuredImage);
+                dispatch(removePost({slug: post.$id}))
                 navigate("/");
             }
             setIsClicked(false);
@@ -50,11 +54,11 @@ export default function Post() {
                     {isAuthor && (
                         <div className="absolute right-6 top-6">
                             <Link to={`/edit-post/${post.$id}`}>
-                                <Button bgColor="bg-green-500" className="mr-3" disabled={isClicked}>
+                                <Button bgColor="bg-green-500" className="mr-3 cursor-pointer disabled:bg-gray-300 disabled:cursor-progress" disabled={isClicked}>
                                     Edit
                                 </Button>
                             </Link>
-                            <Button bgColor="enabled:bg-red-500" className="disabled:bg-gray-300" onClick={deletePost} disabled={isClicked}>
+                            <Button bgColor="bg-red-500" className="disabled:bg-gray-300 cursor-pointer disabled:cursor-progress" onClick={deletePost} disabled={isClicked}>
                                 {isClicked ? <Loader color="text-red-500" label=""/> : "Delete"}
                             </Button>
                         </div>

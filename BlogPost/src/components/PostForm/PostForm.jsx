@@ -1,13 +1,16 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import appwriteService from '../../appwrite/appwriteConfig'
+import { updatePost } from '../../store/postSlice'
 import { Button, Input, Loader, RTE, Select } from "../index"
 
 function PostForm({ post }) {
     const [error, setError] = useState(null)
     const [isSubmit, setIsSubmit] = useState(false)
+
+    const dispatch = useDispatch()
 
     const {register, handleSubmit, watch, setValue, control, getValues} = useForm(
         {
@@ -30,12 +33,13 @@ function PostForm({ post }) {
             if (post) {
                 // data.image?.[0] if data.image is not null or undefined then it will slice it if u forgot how it works just read about it on mdn the topic is optional chaining
                 // Just tested what happens to this statement if the data.image is an empty array it will still work as in js if we slice a non existing value from array it give undefined and null and undefined conditions are treated as false but I have written it in case data.image is null or undefined already
-                const file = data.image?.[0] ? await appwriteService.uploadFile(data.image[0]) : data.featuredImage;
+                
+                const file = data?.image?.[0] ? await appwriteService.uploadFile(data.image[0]) : data.featuredImage;
                 
                 if (file && post.featuredImage) {
                     await appwriteService.removeFile(post.featuredImage)
                 }
-
+                dispatch(updatePost({slug: data.slug, post: {...data, featuredImage: file ? file.$id : null, userId: userData.$id, status: data.status === "active" ? true : false}}))
                 const dbPost = await appwriteService.updatePost(
                     post.$id,
                     {
@@ -49,26 +53,30 @@ function PostForm({ post }) {
                 if (dbPost) {
                     nvaigate(`/post/${dbPost.$id}`)
                 }
-                console.log(data.status);
-                
             } else {
-                const file = data?.image?.[0] ? await appwriteService.uploadFile(data.image[0]) : null;
-                
+                const file = data.image?.[0] ? await appwriteService.uploadFile(data.image[0]) : null;
                 if (file) {
                     const fileId = file.$id
                     data.featuredImage = fileId
                 }
+
+                dispatch(updatePost({slug: data.slug, post: {...data, userId: userData.$id, status: data.status === "active" ? true : false}}))
                 
-                const dbPost = await appwriteService.createPost(
-                    {
-                        ...data,
-                        userId: userData.$id,
-                        status: data.status === "active" ? true : false
+                try {
+                    const dbPost = await appwriteService.createPost(
+                        {
+                            ...data,
+                            userId: userData.$id,
+                            status: data.status === "active" ? true : false,
+                        }
+                    )
+                    if (dbPost) {
+                        nvaigate(`/post/${dbPost.$id}`)
                     }
-                )
-                setIsSubmit(false)
-                if (dbPost) {
-                    nvaigate(`/post/${dbPost.$id}`)
+                } catch {
+                    setError("You have already created a post with same slug. Try changing the slug manually or try changing the title")
+                } finally {
+                    setIsSubmit(false)
                 }
             }
         } catch (err) {
@@ -168,6 +176,7 @@ function PostForm({ post }) {
                         <Loader label={(post ? "Updating" : "Submitting")}/>
                     ) : (post ? "Update" : "Submit")}
                 </Button>
+                {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
             </div>
         </form>
     )
