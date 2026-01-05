@@ -11,7 +11,7 @@
 ## To improve
 
 - ~~Add `post slice` in store of redux~~
-- Add loading screen in [App.jsx](./src/App.jsx) (and at few more place) for better experince.
+- ~~Add loading screen in [App.jsx](./src/App.jsx) (and at few more place) for better experince.~~
 - Add theme swticher in the project
 - Add show and hide password option
 - ~~Add loading process when user submits form~~

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Outlet } from 'react-router-dom';
 import './App.css';
 import authService from './appwrite/auth';
-import { Footer, Header } from "./components";
+import { Footer, Header, Loader, OverLay } from "./components";
 import { login, logout } from "./store/authSlice";
 
 function App() {
@@ -32,11 +32,15 @@ function App() {
     []
   )
 
-  return loading ? null : (
-    <div className='min-h-screen min-w-screen flex flex-wrap content-between bg-gray-800 text-white'>
+  return loading ? (
+    <OverLay message="Loading posts" textColor='text-blue-700'>
+      <Loader label='' size='10'/>
+    </OverLay>
+  ) : (
+    <div className='min-h-screen min-w-scree flex flex-wrap content-between bg-gray-800 text-white'>
       <div className='w-full block'>
         <Header />
-        <main>
+        <main className='h-dvh min-h-dvh'>
           <Outlet />
         </main>
         <Footer />

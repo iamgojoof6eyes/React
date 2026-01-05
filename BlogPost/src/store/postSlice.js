@@ -22,7 +22,7 @@ const postsSlice = createSlice(
             },
             updatePost: (state, action) => {
                 delete action.payload.post.image
-                state.posts[action.payload.slug] = action.payload.post
+                state.posts[action.payload.slug] = {...action.payload.post, $id: action.payload.slug}
             },
             removePost: (state, action) => {
                 delete state.posts[action.payload.slug]

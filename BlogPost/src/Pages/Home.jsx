@@ -51,37 +51,36 @@ function Home() {
         </div>
         )
     }
-    if (posts?.length > 0) {
-        return (
+    return (
+        (posts?.length > 0) ? (
             <div className='w-full py-8'>
                 <Container>
                     {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
                     <div className='flex flex-wrap'>
                         {posts.map((post) => (
+                            (post.status) ? (
                             <div key={post.$id} className='p-2 w-1/4'>
                                 <PostCard {...post} />
                             </div>
+                            ) : null
                         ))}
                     </div>
                 </Container>
             </div>
-        )
-    }
-    return (
-        <div className="w-full py-8 mt-4 text-center">
-            <Container>
-                <div className="flex flex-wrap">
-                    <div className="p-2 w-full">
-                        <h1 className="text-2xl">
-                            Don't have anything to show
-                        </h1>
+        ) : (    
+            <div className="w-full py-8 mt-4 text-center">
+                <Container>
+                    <div className="flex flex-wrap">
+                        <div className="p-2 w-full">
+                            <h1 className="text-2xl">
+                                Don't have anything to show
+                            </h1>
+                        </div>
                     </div>
-                </div>
-            </Container>
-        </div>
+                </Container>
+            </div>
+        )
     )
-
-
 }
 
 export default Home

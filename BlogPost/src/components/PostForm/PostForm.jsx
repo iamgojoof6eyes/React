@@ -39,6 +39,7 @@ function PostForm({ post }) {
                 if (file && post.featuredImage) {
                     await appwriteService.removeFile(post.featuredImage)
                 }
+                
                 dispatch(updatePost({slug: data.slug, post: {...data, featuredImage: file ? file.$id : null, userId: userData.$id, status: data.status === "active" ? true : false}}))
                 const dbPost = await appwriteService.updatePost(
                     post.$id,
@@ -59,7 +60,8 @@ function PostForm({ post }) {
                     const fileId = file.$id
                     data.featuredImage = fileId
                 }
-
+                console.log(data.slug);
+                
                 dispatch(updatePost({slug: data.slug, post: {...data, userId: userData.$id, status: data.status === "active" ? true : false}}))
                 
                 try {
@@ -153,7 +155,6 @@ function PostForm({ post }) {
                     accept="image/png, image/jpg, image/jpeg, image/gif"
                     {...register("image", { required: false })}
                     readOnly={isSubmit}
-                    
                 />
                 {post?.featuredImage && (
                     <div className="w-full mb-4">

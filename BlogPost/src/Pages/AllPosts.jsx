@@ -38,19 +38,20 @@ function AllPosts() {
         },
         []
     )
-
     return (
         <div className='w-full py-8'>
             <Container>
                 {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
                 <div className='flex flex-wrap'>
                     {
-                        posts ? posts.map(
-                            (post) => (
-                                <div key={post.$id} className='p-2 w-1/4'>
-                                    <PostCard {...post} />
-                                </div>
-                            ) 
+                        (posts?.length > 0) ? (
+                            posts.map(
+                                (post) => (
+                                    <div key={post.$id} className='p-2 w-1/4'>
+                                        <PostCard {...post} />
+                                    </div>
+                                ) 
+                            )
                         ) : (
                         <div className="p-2 w-full text-center">
                             <h1 className="text-2xl">
