@@ -37,7 +37,7 @@ function App() {
       <Loader label='' size='10'/>
     </OverLay>
   ) : (
-    <div className='min-h-screen min-w-scree flex flex-wrap content-between bg-gray-800 text-white'>
+    <div className='min-h-screen min-w-scree flex flex-wrap content-between bg-white dark:bg-gray-800 dark:text-white text-black'>
       <div className='w-full block'>
         <Header />
         <main className='h-dvh min-h-dvh'>

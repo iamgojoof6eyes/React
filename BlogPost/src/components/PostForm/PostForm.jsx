@@ -60,7 +60,6 @@ function PostForm({ post }) {
                     const fileId = file.$id
                     data.featuredImage = fileId
                 }
-                console.log(data.slug);
                 
                 dispatch(updatePost({slug: data.slug, post: {...data, userId: userData.$id, status: data.status === "active" ? true : false}}))
                 
@@ -151,7 +150,7 @@ function PostForm({ post }) {
                 <Input
                     label="Featured Image :"
                     type="file"
-                    className="mb-4 cursor-pointer bg-black"
+                    className="mb-4 cursor-pointer"
                     accept="image/png, image/jpg, image/jpeg, image/gif"
                     {...register("image", { required: false })}
                     readOnly={isSubmit}

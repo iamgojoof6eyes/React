@@ -14,10 +14,11 @@ import PostForm from "./PostForm/PostForm";
 import RTE from "./RTE";
 import Select from "./Select";
 import Signup from "./Signup";
+import Theme from "./Header/Theme";
 
 export {
     Button, Container, Footer,
     Header, Input, Loader, Login, Logo,
-    LogoutBtn, OverLay, PostCard, PostForm, Protected, RTE, Select, Signup
+    LogoutBtn, OverLay, PostCard, PostForm, Protected, RTE, Select, Signup, Theme
 };
 

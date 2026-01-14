@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
 import { Link, NavLink, useNavigate } from "react-router-dom"
-import { Container, Logo, LogoutBtn } from "../index"
+import { Container, Logo, LogoutBtn, Theme } from "../index"
 
 function Header() {
     const authStatus = useSelector((state) => state.auth.status) //state.<name of slice>.<state want to access>
@@ -37,7 +37,7 @@ function Header() {
 
     return (
         <header
-        className="py-3 shadow bg-gray-700"
+        className="py-3 shadow bg-gray-300 dark:bg-gray-700"
         >
             <Container>
                 <nav className="flex">
@@ -47,13 +47,16 @@ function Header() {
                         </Link>
                     </div>
                     <ul className="flex ml-auto">
+                        <li>
+                            <Theme />
+                        </li>
                         {
                             navItems.map(
                                 (item) => item.active ? (
                                     <li key={item.name}>
                                         <button 
                                         onClick={() => navigate(item.redirect)}
-                                        className='inline-bock px-6 py-2 duration-500 hover:bg-blue-500 hover:shadow-2xl/40 hover:shadow-blue-400 rounded-full'
+                                        className='inline-bock text-blue-500 font-semibold underline-offset-2 hover:text-white px-6 py-2 duration-500 hover:bg-blue-500 hover:shadow-2xl/40 hover:shadow-blue-400 rounded-full'
                                         >
                                             <NavLink to={item.redirect} className={({isActive}) => isActive ? 'underline' : ('')}>
                                                 {item.name}

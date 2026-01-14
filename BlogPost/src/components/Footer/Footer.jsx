@@ -3,7 +3,7 @@ import { Logo } from '../index'
 
 function Footer() {
     return (
-        <section className="relative overflow-hidden py-10 bg-gray-700 border border-black">
+        <section className="relative overflow-hidden py-10 bg-gray-300 dark:bg-gray-700 border border-black">
             <div className="relative z-10 mx-auto max-w-7xl px-4">
                 <div className="-m-6 flex flex-wrap">
                     <div className="w-full p-6 md:w-1/2 lg:w-5/12">
@@ -12,8 +12,8 @@ function Footer() {
                                 <Logo width="100px" />
                             </div>
                             <div>
-                                <p className="text-sm text-white">
-                                    &copy; Copyright 2025. All right reserved by <Link to="https://github.com/iamgojoof6eyes" target='_blank' className='underline hover:text-gray-400'>Captain D. Ezio</Link>
+                                <p className="text-sm text-black dark:text-white">
+                                    &copy; Copyright 2025. All right reserved by <Link to="https://github.com/iamgojoof6eyes" target='_blank' className='hover:underline hover:text-gray-500'>Captain D. Ezio</Link>
                                 </p>
                             </div>
                         </div>
@@ -26,7 +26,7 @@ function Footer() {
                             <ul>
                                 <li className="mb-4">
                                     <Link
-                                        className=" text-base font-medium text-white hover:text-gray-400"
+                                        className=" text-base font-medium text-black dark:text-white hover:text-gray-500"
                                         to="/"
                                     >
                                         Features
@@ -34,7 +34,7 @@ function Footer() {
                                 </li>
                                 <li className="mb-4">
                                     <Link
-                                        className=" text-base font-medium text-white hover:text-gray-400"
+                                        className=" text-base font-medium text-black dark:text-white hover:text-gray-500"
                                         to="/"
                                     >
                                         Pricing
@@ -42,7 +42,7 @@ function Footer() {
                                 </li>
                                 <li className="mb-4">
                                     <Link
-                                        className=" text-base font-medium text-white hover:text-gray-400"
+                                        className=" text-base font-medium text-black dark:text-white hover:text-gray-500"
                                         to="/"
                                     >
                                         Affiliate Program
@@ -50,7 +50,7 @@ function Footer() {
                                 </li>
                                 <li>
                                     <Link
-                                        className=" text-base font-medium text-white hover:text-gray-400"
+                                        className=" text-base font-medium text-black dark:text-white hover:text-gray-500"
                                         to="/"
                                     >
                                         Press Kit
@@ -67,7 +67,7 @@ function Footer() {
                             <ul>
                                 <li className="mb-4">
                                     <Link
-                                        className=" text-base font-medium text-white hover:text-gray-400"
+                                        className=" text-base font-medium text-black dark:text-white hover:text-gray-500"
                                         to="/"
                                     >
                                         Account
@@ -75,7 +75,7 @@ function Footer() {
                                 </li>
                                 <li className="mb-4">
                                     <Link
-                                        className=" text-base font-medium text-white hover:text-gray-400"
+                                        className=" text-base font-medium text-black dark:text-white hover:text-gray-500"
                                         to="/"
                                     >
                                         Help
@@ -83,7 +83,7 @@ function Footer() {
                                 </li>
                                 <li className="mb-4">
                                     <Link
-                                        className=" text-base font-medium text-white hover:text-gray-400"
+                                        className=" text-base font-medium text-black dark:text-white hover:text-gray-500"
                                         to="/"
                                     >
                                         Contact Us
@@ -91,7 +91,7 @@ function Footer() {
                                 </li>
                                 <li>
                                     <Link
-                                        className=" text-base font-medium text-white hover:text-gray-400"
+                                        className=" text-base font-medium text-black dark:text-white hover:text-gray-500"
                                         to="/"
                                     >
                                         Customer Support
@@ -108,7 +108,7 @@ function Footer() {
                             <ul>
                                 <li className="mb-4">
                                     <Link
-                                        className=" text-base font-medium text-white hover:text-gray-400"
+                                        className=" text-base font-medium text-black dark:text-white hover:text-gray-500"
                                         to="/"
                                     >
                                         Terms &amp; Conditions
@@ -116,7 +116,7 @@ function Footer() {
                                 </li>
                                 <li className="mb-4">
                                     <Link
-                                        className=" text-base font-medium text-white hover:text-gray-400"
+                                        className=" text-base font-medium text-black dark:text-white hover:text-gray-500"
                                         to="/"
                                     >
                                         Privacy Policy
@@ -124,7 +124,7 @@ function Footer() {
                                 </li>
                                 <li>
                                     <Link
-                                        className=" text-base font-medium text-white hover:text-gray-400"
+                                        className=" text-base font-medium text-black dark:text-white hover:text-gray-500"
                                         to="/"
                                     >
                                         Licensing
