@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react'
+import { X } from 'lucide-react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -9,6 +10,7 @@ import { Button, Input, Loader, RTE, Select } from "../index"
 function PostForm({ post }) {
     const [error, setError] = useState(null)
     const [isSubmit, setIsSubmit] = useState(false)
+    const [slug, setSlug] = useState('')
 
     const dispatch = useDispatch()
 
@@ -19,24 +21,34 @@ function PostForm({ post }) {
                 slug: post?.$id || "",
                 content: post?.content || "",
                 status: post ? (post.status ? "active" : "inactive") : "active",
+                image: post?.featuredImage,
+                imageName: post?.imageName
             }
         }
     )
     //watch is used to watch a field continously and to set values we use setValue and control gives the control of the current form
 
     const nvaigate = useNavigate()
+    const [imgName, setImgName] = useState(post?.imageName)
     const userData = useSelector(state => state.auth.userData)
     
     const submit = async (data) => {
+        console.log("Data::");
+        
+        console.log(data);
+        console.log(getValues())
+        console.log(imgName)
         setIsSubmit(true)
         try {
             if (post) {
                 // data.image?.[0] if data.image is not null or undefined then it will slice it if u forgot how it works just read about it on mdn the topic is optional chaining
                 // Just tested what happens to this statement if the data.image is an empty array it will still work as in js if we slice a non existing value from array it give undefined and null and undefined conditions are treated as false but I have written it in case data.image is null or undefined already
+                console.log(`Image ${data?.image?.[0]}`)
+                const file = data?.image?.[0] ? await appwriteService.uploadFile(data.image[0]) : null;
+                console.log(data);
                 
-                const file = data?.image?.[0] ? await appwriteService.uploadFile(data.image[0]) : data.featuredImage;
-                
-                if (file && post.featuredImage) {
+                console.log(`Has file: ${file}`);
+                if (!file && post.featuredImage) {
                     await appwriteService.removeFile(post.featuredImage)
                 }
                 
@@ -123,6 +135,56 @@ function PostForm({ post }) {
         },
         [watch, slugTransform, setValue]
     )
+    
+    const inputFileRef = useRef(null)
+    const handleRemoveImage = (e) => {
+        e.preventDefault()
+        setValue("image", null)
+        setImgName('')
+        if (inputFileRef.current) inputFileRef.current.value = '';
+        console.log("Submit triggered");
+        setImgSrc('')
+        setValue("imageName", imgName)
+    }
+
+    console.log(getValues());
+    
+
+    const handleOnChange = (e) => {
+        console.log("Change triggered");
+        let imgValue = null;
+
+        const file = e.target.files?.[0]
+        if (file) {
+            imgValue = file.name
+            if (file.type.startsWith('image/')) {
+                const imgUrl = URL.createObjectURL(file); // Create a temporary URL for the file
+                setImgSrc(imgUrl)
+            } else setImgSrc('')
+        }
+        console.log(file)
+        setImgName(imgValue)
+        setValue("imageName", imgValue)
+        if (post) post.imageName = imgValue;
+        console.log("Changed");
+        console.log(getValues("image"))
+    }
+
+
+
+    const [imgSrc, setImgSrc] = useState("")
+    
+    useEffect(
+        () => {
+            if (post) {
+                if (post.featuredImage && !imgSrc) {
+                    const preview = appwriteService.getFilePreview(post.featuredImage)
+                    setImgSrc(preview)
+                }
+            }
+        },
+        []
+    )
 
     return (
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
@@ -147,19 +209,32 @@ function PostForm({ post }) {
                 <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
             </div>
             <div className="w-1/3 px-2">
-                <Input
-                    label="Featured Image :"
-                    type="file"
-                    className="mb-4 cursor-pointer"
-                    accept="image/png, image/jpg, image/jpeg, image/gif"
-                    {...register("image", { required: false })}
-                    readOnly={isSubmit}
-                />
-                {post?.featuredImage && (
+                <div className='flex justify-center items-center'>
+                    <Input
+                        label="Featured Image :"
+                        type="file"
+                        className="mb-4 cursor-pointer file:border-r-2 file:border-blue-600 file:pr-2 file:cursor-pointer"
+                        accept="image/png, image/jpg, image/jpeg, image/gif"
+                        {...register("image", { required: false })}
+                        readOnly={isSubmit}
+                        onChange={handleOnChange}
+                        ref={
+                            (e) => {
+                                inputFileRef.current = e;
+                                register("image").ref(e)
+                            }
+                        }
+                        title=""
+                    />
+                    <button className='rounded-lg bg-red-500 p-1.5 ml-1 mt-2 hover:bg-red-400 cursor-pointer' onClick={handleRemoveImage}> 
+                        <X color='#fff'/>
+                    </button>
+                </div>
+                {imgSrc && (
                     <div className="w-full mb-4">
                         <img
-                            src={appwriteService.getFilePreview(post.featuredImage)}
-                            alt={post.title}
+                            src={imgSrc}
+                            alt={imgName}
                             className="rounded-lg"
                         />
                     </div>

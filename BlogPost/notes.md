@@ -18,4 +18,4 @@
 - ~~Add theme swticher in the project~~
 - ~~Add show and hide password option~~
 - ~~Add loading process when user submits form~~
-- Added a image remove option in edit post
+- Add a image remove option in edit post
