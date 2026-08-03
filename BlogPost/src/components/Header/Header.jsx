@@ -56,7 +56,7 @@ function Header() {
                                     <li key={item.name}>
                                         <button 
                                         onClick={() => navigate(item.redirect)}
-                                        className='inline-bock text-blue-500 font-semibold underline-offset-2 hover:text-white px-6 py-2 duration-500 hover:bg-blue-500 hover:shadow-2xl/40 hover:shadow-blue-400 rounded-full'
+                                        className='inline-bock text-blue-500 font-semibold underline-offset-2 hover:text-white px-6 py-2 duration-500 hover:bg-blue-500 hover:shadow-2xl/40 rounded-full'
                                         >
                                             <NavLink to={item.redirect} className={({isActive}) => isActive ? 'underline' : ('')}>
                                                 {item.name}

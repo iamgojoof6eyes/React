@@ -37,7 +37,7 @@ function Input(
                     id={id}
                     />
                     {
-                        isPassField && <button className={`p-2 justify-items-center items-center shadow-xl shadow- transition-colors duration-200 rounded-r-lg ${isVisible? 'bg-red-600 peer-focus:ring-red-700 hover:bg-red-500 shadow-red-400/60' : 'bg-blue-600 hover:bg-blue-500 peer-focus:ring-blue-700 shadow-blue-400/60'} peer-focus:ring-2 peer-focus:outline-none`} onClick={handleClick}>
+                        isPassField && <button className={`p-2 justify-items-center items-center shadow-xl shadow- transition-colors duration-200 rounded-r-lg ${isVisible? 'bg-red-600 peer-focus:ring-red-700 hover:bg-red-500' : 'bg-blue-600 hover:bg-blue-500 peer-focus:ring-blue-700'} peer-focus:ring-2 peer-focus:outline-none`} onClick={handleClick}>
                             {(isVisible) ? <Eye color='#fff'/> : <EyeOff color='#fff'/>}
                         </button>
                     }
